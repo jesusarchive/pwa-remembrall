@@ -1,9 +1,5 @@
+import HomePage from "./pages/home-page";
 
 export default function App() {
-  return (
-   <h1 className="text-3xl font-bold underline text-red-600">
-      Remembrall Game APP
-    </h1>
-  )
+  return <HomePage />;
 }
-
