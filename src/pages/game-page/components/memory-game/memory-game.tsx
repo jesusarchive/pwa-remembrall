@@ -120,6 +120,7 @@ export default function MemoryGame() {
                         ? value === numberToGuess
                         : undefined
                     }
+                    disabled={showValues || !!clickedValues.length}
                   />
                 );
               })}
