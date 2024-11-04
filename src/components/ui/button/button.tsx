@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-type ButtonProps = React.HTMLAttributes<HTMLButtonElement>;
+type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement>;
 
 export default function Button({ className, ...props }: Readonly<ButtonProps>) {
   return (
