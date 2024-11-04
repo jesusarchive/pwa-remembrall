@@ -1,6 +1,6 @@
 import React from "react";
 
-export type UserType = {
+export type User = {
   id: string;
   name: string;
 };
@@ -11,11 +11,11 @@ const ActionKind = {
 } as const;
 
 export type State = {
-  user: UserType | undefined;
+  user: User | undefined;
 };
 
 type SetUserPayload = {
-  user: UserType | undefined;
+  user: User | undefined;
 };
 
 export type Action = {
