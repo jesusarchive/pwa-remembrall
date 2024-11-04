@@ -82,8 +82,6 @@ export default function MemoryGame() {
 
   return (
     <div className="flex flex-col gap-8 p-4">
-      <span>Time left: {time / 1000} seconds</span>
-
       {!initilized && (
         <span className="text-xl font-bold self-center">
           Click the play button to start a new game
@@ -91,6 +89,7 @@ export default function MemoryGame() {
       )}
       {initilized && (
         <>
+          <span>Time left: {time / 1000} seconds</span>
           {showValues && (
             <span className="text-xl font-bold self-center">
               Memorize the cards
