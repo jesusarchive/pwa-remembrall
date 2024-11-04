@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
 import Button from "@/components/ui/button";
 
 import useGameContext from "../../providers/game-provider/game-provider.hook";
+import { setScore } from "../../providers/game-provider/game-provider.state";
 import MemoryCard from "./components/memory-card";
 import { useTimer } from "./hooks/use-timer";
 
@@ -26,26 +27,23 @@ function shuffle(array: number[]) {
 
 export default function MemoryGame() {
   const {
-    state: { level },
+    state: { level, score },
+    dispatch,
   } = useGameContext();
 
   const [initilized, setInitilized] = useState(false);
   const [shuffledValues, setShuffledValues] = useState(shuffle(GAME_VALUES));
+  const [numberToGuess, setNumberToGuess] = useState<number | null>(null);
 
-  const time = MEMORY_GAME_TIME[level ?? "easy"];
-  const score = MEMORY_GAME_SCORE[level ?? "easy"];
-
-  const { time: timeLeft, start, stop, reset, isRunning } = useTimer(time);
+  const { time, start, stop, reset, isRunning } = useTimer(
+    MEMORY_GAME_TIME[level ?? "easy"]
+  );
 
   const [showValues, setShowValues] = useState(true);
 
   const [clickedValues, setClickedValues] = useState<
     (typeof GAME_VALUES)[number][]
   >([]);
-
-  const currentNumberToGuess = useMemo(() => {
-    return GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)];
-  }, []);
 
   useEffect(() => {
     if (!isRunning) {
@@ -56,20 +54,27 @@ export default function MemoryGame() {
   const onMemoryCardClick = (value: (typeof GAME_VALUES)[number]) => {
     setClickedValues([...clickedValues, value]);
     stop();
+
+    if (value === numberToGuess) {
+      setScore(dispatch)({
+        score: (score ?? 0) + MEMORY_GAME_SCORE[level ?? "easy"],
+      });
+    }
   };
 
   const onPlayClick = () => {
+    setClickedValues([]);
+    setShuffledValues(shuffle(GAME_VALUES));
+    setNumberToGuess(
+      GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)]
+    );
+    setShowValues(true);
+
     if (!initilized) {
-      setClickedValues([]);
-      setShuffledValues(shuffle(GAME_VALUES));
       setInitilized(true);
-      setShowValues(true);
       start();
     } else {
       stop();
-      setClickedValues([]);
-      setShuffledValues(shuffle(GAME_VALUES));
-      setShowValues(true);
       reset();
       start();
     }
@@ -80,7 +85,7 @@ export default function MemoryGame() {
       {/* <button onClick={start}>start</button>
       <button onClick={stop}>stop</button>
       <button onClick={reset}>reset</button> */}
-      <span>time left {timeLeft}</span>
+      <span>time left {time}</span>
 
       {!initilized && (
         <span className="text-xl font-bold self-center">
@@ -96,7 +101,7 @@ export default function MemoryGame() {
           )}
           {!showValues && (
             <span className="text-xl font-bold self-center">
-              Where is the number {currentNumberToGuess}?
+              Where is the number {numberToGuess}?
             </span>
           )}
           <div className="flex flex-col items-center justify-center">
@@ -112,7 +117,7 @@ export default function MemoryGame() {
                     onClick={() => onMemoryCardClick(value)}
                     isValidGuess={
                       clickedValues.includes(value)
-                        ? value === currentNumberToGuess
+                        ? value === numberToGuess
                         : undefined
                     }
                   />

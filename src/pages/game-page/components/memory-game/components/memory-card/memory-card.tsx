@@ -4,7 +4,7 @@ type MemoryCardProps = {
   value: string;
   onClick: () => void;
   showValue: boolean;
-  isValidGuess?: boolean | undefined;
+  isValidGuess?: boolean;
   disabled?: boolean;
 };
 
