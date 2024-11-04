@@ -1,5 +1,7 @@
 import useUser from "@/providers/user-provider/user-provider.hook";
 
+import GameProvider from "./providers/game-provider/game-provider";
+
 function GamePageInternal() {
   const { state } = useUser();
 
@@ -7,5 +9,9 @@ function GamePageInternal() {
 }
 
 export default function GamePage() {
-  return <GamePageInternal />;
+  return (
+    <GameProvider>
+      <GamePageInternal />
+    </GameProvider>
+  );
 }
