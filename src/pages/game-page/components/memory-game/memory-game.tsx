@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import Button from "@/components/ui/button";
 
@@ -31,19 +31,53 @@ export default function MemoryGame() {
     dispatch,
   } = useGameContext();
 
-  const [initilized, setInitilized] = useState(false);
-  const [shuffledValues, setShuffledValues] = useState(shuffle(GAME_VALUES));
-  const [numberToGuess, setNumberToGuess] = useState<number | null>(null);
-
   const { time, start, stop, reset, isRunning } = useTimer(
     MEMORY_GAME_TIME[level ?? "easy"]
   );
 
+  const [initilized, setInitilized] = useState(false);
+  const [shuffledValues, setShuffledValues] = useState(shuffle(GAME_VALUES));
+  const [numberToGuess, setNumberToGuess] = useState<number | null>(null);
   const [showValues, setShowValues] = useState(true);
-
   const [clickedValues, setClickedValues] = useState<
     (typeof GAME_VALUES)[number][]
   >([]);
+
+  const onMemoryCardClick = useCallback(
+    (value: (typeof GAME_VALUES)[number]) => {
+      setClickedValues((prevClickedValues) => [...prevClickedValues, value]);
+      stop();
+
+      if (value === numberToGuess) {
+        setScore(dispatch)({
+          score: (score ?? 0) + MEMORY_GAME_SCORE[level ?? "easy"],
+        });
+      }
+    },
+    [dispatch, level, numberToGuess, score, stop]
+  );
+
+  const resetGameValues = useCallback(() => {
+    stop();
+    reset();
+    setScore(dispatch)({
+      score: 0,
+    });
+    setClickedValues([]);
+    setShuffledValues(shuffle(GAME_VALUES));
+    setNumberToGuess(
+      GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)]
+    );
+    setShowValues(true);
+  }, [dispatch, reset, stop]);
+
+  const onPlayClick = useCallback(() => {
+    resetGameValues();
+    if (!initilized) {
+      setInitilized(true);
+    }
+    start();
+  }, [initilized, resetGameValues, start]);
 
   useEffect(() => {
     if (!isRunning) {
@@ -51,34 +85,10 @@ export default function MemoryGame() {
     }
   }, [isRunning]);
 
-  const onMemoryCardClick = (value: (typeof GAME_VALUES)[number]) => {
-    setClickedValues([...clickedValues, value]);
-    stop();
-
-    if (value === numberToGuess) {
-      setScore(dispatch)({
-        score: (score ?? 0) + MEMORY_GAME_SCORE[level ?? "easy"],
-      });
-    }
-  };
-
-  const onPlayClick = () => {
-    setClickedValues([]);
-    setShuffledValues(shuffle(GAME_VALUES));
-    setNumberToGuess(
-      GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)]
-    );
-    setShowValues(true);
-
-    if (!initilized) {
-      setInitilized(true);
-      start();
-    } else {
-      stop();
-      reset();
-      start();
-    }
-  };
+  useEffect(() => {
+    setInitilized(false);
+    resetGameValues();
+  }, [level, resetGameValues]);
 
   return (
     <div className="flex flex-col gap-8 p-4">

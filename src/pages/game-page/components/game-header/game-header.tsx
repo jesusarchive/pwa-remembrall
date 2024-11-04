@@ -1,4 +1,4 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useCallback, useMemo } from "react";
 
 import Select from "@/components/ui/select";
 import useUser from "@/providers/user-provider/user-provider.hook";
@@ -15,14 +15,21 @@ export default function GameHeader() {
   } = useUser();
   const { dispatch } = useGameContext();
 
-  const levelOptions = Object.values(Level).map((level) => ({
-    label: level,
-    value: level,
-  }));
+  const levelOptions = useMemo(
+    () =>
+      Object.values(Level).map((level) => ({
+        label: level,
+        value: level,
+      })),
+    []
+  );
 
-  const onLevelChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setLevel(dispatch)({ level: event?.target.value as Level });
-  };
+  const onLevelChange = useCallback(
+    (event: ChangeEvent<HTMLSelectElement>) => {
+      setLevel(dispatch)({ level: event?.target.value as Level });
+    },
+    [dispatch]
+  );
 
   return (
     <div className="w-full h-20 bg-blue-700 flex items-center justify-between px-6">

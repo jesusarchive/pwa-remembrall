@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 export function useTimer(initialTime: number) {
   const [time, setTime] = useState(initialTime);
   const [running, setRunning] = useState(false);
 
-  const start = () => {
+  const start = useCallback(() => {
     setRunning(true);
-  };
+  }, []);
 
-  const stop = () => {
+  const stop = useCallback(() => {
     setRunning(false);
-  };
+  }, []);
 
-  const reset = () => {
+  const reset = useCallback(() => {
     setTime(initialTime);
-  };
+  }, [initialTime]);
 
   useEffect(() => {
     if (running) {
