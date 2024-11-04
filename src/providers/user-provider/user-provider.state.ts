@@ -1,6 +1,6 @@
 import React from "react";
 
-type UserType = {
+export type UserType = {
   id: string;
   name: string;
 };
