@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import Button from "@/components/ui/button";
 
@@ -11,17 +11,17 @@ const MEMORY_GAME_TIME = {
   easy: 5000,
   medium: 4000,
   hard: 3000,
-};
+} as const;
 
 const MEMORY_GAME_SCORE = {
   easy: 10,
   medium: 20,
   hard: 30,
-};
+} as const;
 
 const GAME_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-function shuffle(array: number[]) {
+function shuffle(array: number[]): number[] {
   return [...array].sort(() => Math.random() - 0.5);
 }
 
@@ -31,22 +31,20 @@ export default function MemoryGame() {
     dispatch,
   } = useGameContext();
 
-  const { time, start, stop, reset, isRunning } = useTimer(
-    MEMORY_GAME_TIME[level ?? "easy"]
-  );
+  const timer = useTimer(MEMORY_GAME_TIME[level ?? "easy"]);
 
-  const [initilized, setInitilized] = useState(false);
-  const [shuffledValues, setShuffledValues] = useState(shuffle(GAME_VALUES));
+  const [initialized, setInitialized] = useState(false);
+  const [shuffledValues, setShuffledValues] = useState<number[]>(() =>
+    shuffle(GAME_VALUES)
+  );
   const [numberToGuess, setNumberToGuess] = useState<number | null>(null);
   const [showValues, setShowValues] = useState(true);
-  const [clickedValues, setClickedValues] = useState<
-    (typeof GAME_VALUES)[number][]
-  >([]);
+  const [clickedValues, setClickedValues] = useState<number[]>([]);
 
   const onMemoryCardClick = useCallback(
-    (value: (typeof GAME_VALUES)[number]) => {
+    (value: number) => {
       setClickedValues((prevClickedValues) => [...prevClickedValues, value]);
-      stop();
+      timer.stop();
 
       if (value === numberToGuess) {
         setScore(dispatch)({
@@ -54,82 +52,71 @@ export default function MemoryGame() {
         });
       }
     },
-    [dispatch, level, numberToGuess, score, stop]
+    [dispatch, level, numberToGuess, score, timer]
   );
 
   const resetGameValues = useCallback(() => {
-    stop();
-    reset();
-    setScore(dispatch)({
-      score: 0,
-    });
+    timer.stop();
+    timer.reset();
+    setScore(dispatch)({ score: 0 });
     setClickedValues([]);
     setShuffledValues(shuffle(GAME_VALUES));
     setNumberToGuess(
       GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)]
     );
     setShowValues(true);
-  }, [dispatch, reset, stop]);
+  }, [timer, dispatch]);
 
   const onPlayClick = useCallback(() => {
     resetGameValues();
-    if (!initilized) {
-      setInitilized(true);
+    if (!initialized) {
+      setInitialized(true);
     }
-    start();
-  }, [initilized, resetGameValues, start]);
+    timer.start();
+  }, [initialized, resetGameValues, timer]);
 
   useEffect(() => {
-    if (!isRunning) {
+    if (!timer.isRunning) {
       setShowValues(false);
     }
-  }, [isRunning]);
+  }, [timer.isRunning]);
 
   useEffect(() => {
-    setInitilized(false);
+    setInitialized(false);
     resetGameValues();
   }, [level, resetGameValues]);
 
+  const gameMessage = useMemo(() => {
+    if (!initialized) {
+      return "Click the play button to start a new game";
+    }
+    return showValues
+      ? "Memorize the cards"
+      : `Where is the number ${numberToGuess}?`;
+  }, [initialized, showValues, numberToGuess]);
+
   return (
     <div className="flex flex-col gap-8 p-4">
-      {!initilized && (
-        <span className="text-xl font-bold self-center">
-          Click the play button to start a new game
-        </span>
-      )}
-      {initilized && (
+      <span className="text-xl font-bold self-center">{gameMessage}</span>
+      {initialized && (
         <>
-          <span>Time left: {time / 1000} seconds</span>
-          {showValues && (
-            <span className="text-xl font-bold self-center">
-              Memorize the cards
-            </span>
-          )}
-          {!showValues && (
-            <span className="text-xl font-bold self-center">
-              Where is the number {numberToGuess}?
-            </span>
-          )}
+          <span>Time left: {timer.time / 1000} seconds</span>
           <div className="flex flex-col items-center justify-center">
             <div className="grid grid-cols-3 gap-4">
-              {shuffledValues.map((value) => {
-                return (
-                  <MemoryCard
-                    key={value}
-                    value={String(value)}
-                    showValue={
-                      clickedValues.includes(value) ? true : showValues
-                    }
-                    onClick={() => onMemoryCardClick(value)}
-                    isValidGuess={
-                      clickedValues.includes(value)
-                        ? value === numberToGuess
-                        : undefined
-                    }
-                    disabled={showValues || !!clickedValues.length}
-                  />
-                );
-              })}
+              {shuffledValues.map((value) => (
+                <MemoryCard
+                  key={value}
+                  value={String(value)}
+                  showValue={clickedValues.includes(value) ? true : showValues}
+                  onClick={() => onMemoryCardClick(value)}
+                  isValidGuess={
+                    clickedValues.includes(value)
+                      ? value === numberToGuess
+                      : undefined
+                  }
+                  disabled={showValues || !!clickedValues.length}
+                />
+              ))}
             </div>
           </div>
         </>
