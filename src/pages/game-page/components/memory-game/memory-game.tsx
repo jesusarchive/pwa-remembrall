@@ -19,7 +19,7 @@ const MEMORY_GAME_SCORE = {
   hard: 30,
 };
 
-const GAME_VALUES: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const GAME_VALUES = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 function shuffle(array: number[]) {
   return [...array].sort(() => Math.random() - 0.5);
@@ -82,10 +82,7 @@ export default function MemoryGame() {
 
   return (
     <div className="flex flex-col gap-8 p-4">
-      {/* <button onClick={start}>start</button>
-      <button onClick={stop}>stop</button>
-      <button onClick={reset}>reset</button> */}
-      <span>time left {time}</span>
+      <span>time left: {time / 1000} seconds</span>
 
       {!initilized && (
         <span className="text-xl font-bold self-center">
@@ -128,7 +125,6 @@ export default function MemoryGame() {
           </div>
         </>
       )}
-
       <div className="w-full flex items-center justify-center">
         <Button onClick={onPlayClick}>Play</Button>
       </div>

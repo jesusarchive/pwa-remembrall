@@ -1,20 +1,27 @@
+import { useNavigate } from "react-router-dom";
+
+import useUser from "@/providers/user-provider/user-provider.hook";
+
 import GameHeader from "./components/game-header";
 import MemoryGame from "./components/memory-game";
+import Scoreboard from "./components/scoreboard/scoreboard";
 import GameProvider from "./providers/game-provider/game-provider";
-import useGameContext from "./providers/game-provider/game-provider.hook";
 
 function GamePageInternal() {
+  const navigate = useNavigate();
   const {
-    state: { score },
-  } = useGameContext();
+    state: { user },
+  } = useUser();
+
+  if (!user?.name) {
+    navigate("/");
+  }
 
   return (
     <div className="h-dvh w-dvw flex flex-col">
       <GameHeader />
       <div className="h-full w-full flex flex-col gap-4">
-        <div className="w-full flex justify-end p-6">
-          <span className="text-xl">Points: {score ?? 0}</span>
-        </div>
+        <Scoreboard />
         <MemoryGame />
       </div>
     </div>
