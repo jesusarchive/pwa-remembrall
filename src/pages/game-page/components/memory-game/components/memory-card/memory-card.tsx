@@ -5,6 +5,7 @@ type MemoryCardProps = {
   onClick: () => void;
   showValue: boolean;
   isValidGuess?: boolean | undefined;
+  disabled?: boolean;
 };
 
 export default function MemoryCard({
@@ -12,6 +13,7 @@ export default function MemoryCard({
   value,
   onClick,
   isValidGuess,
+  disabled,
 }: Readonly<MemoryCardProps>) {
   return (
     <div
@@ -20,9 +22,9 @@ export default function MemoryCard({
         isValidGuess === true && "bg-green-500",
         isValidGuess === false && "bg-red-500"
       )}
-      onClick={onClick}
+      onClick={disabled ? undefined : onClick}
     >
-      <span className="text-xl font-bold">{showValue ? value : "?"}</span>
+      <span className="text-6xl font-bold">{showValue ? value : "?"}</span>
     </div>
   );
 }
