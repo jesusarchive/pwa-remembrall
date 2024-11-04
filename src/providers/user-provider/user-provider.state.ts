@@ -45,4 +45,5 @@ export const setUser =
   (dispatch: React.Dispatch<Action>) =>
   ({ user }: SetUserPayload) => {
     dispatch({ type: ActionKind.SET_USER, payload: { user } });
+    localStorage.setItem("user", JSON.stringify(user));
   };
