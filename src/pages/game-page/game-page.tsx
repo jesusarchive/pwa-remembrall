@@ -1,5 +1,9 @@
+import useUser from "@/providers/user-provider/user-provider.hook";
+
 function GamePageInternal() {
-  return <div>GamePage</div>;
+  const { state } = useUser();
+
+  return <div>{state?.user?.name}</div>;
 }
 
 export default function GamePage() {
