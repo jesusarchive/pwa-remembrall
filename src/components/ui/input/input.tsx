@@ -1,6 +1,6 @@
 import { cn } from "@/utils/cn";
 
-export type InputProps = React.HTMLAttributes<HTMLInputElement>;
+type InputProps = React.HTMLAttributes<HTMLInputElement>;
 
 export default function Input({ className, ...props }: Readonly<InputProps>) {
   return (
