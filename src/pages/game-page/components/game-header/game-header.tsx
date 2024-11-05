@@ -18,7 +18,7 @@ export default function GameHeader() {
   const levelOptions = useMemo(
     () =>
       Object.values(Level).map((level) => ({
-        label: level,
+        label: level.charAt(0).toUpperCase() + level.slice(1),
         value: level,
       })),
     []
