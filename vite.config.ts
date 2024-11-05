@@ -34,6 +34,7 @@ export default defineConfig({
         "./tailwind.config.js",
         "**/**.d.ts",
         "src/main.tsx",
+        "**/**.test.{ts,tsx}",
       ],
     },
   },
