@@ -11,6 +11,7 @@ export const routes = [
       {
         index: true,
         Component: HomePage,
+        ErrorBoundary: ErrorBoundary,
       },
       {
         path: "/game",

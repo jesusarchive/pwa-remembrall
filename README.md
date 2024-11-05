@@ -1,50 +1,66 @@
-# React + TypeScript + Vite
+# PWA Remembrall
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Remembrall is a fun and engaging memory game where players are challenged to memorize the positions of 9 cards. After a brief memorization period, players must guess the position of one of the cards. This project is built using Vite and leverages modern web technologies to provide a smooth user experience.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+- [Development](#development)
+- [Building for Production](#building-for-production)
+- [Testing](#testing)
+- [Deployment](#deployment)
+- [Built With](#built-with)
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### Prerequisites
 
-- Configure the top-level `parserOptions` property like this:
+- Node.js (version 19 or higher recommended)
+- npm or pnpm (recommended)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/jesusarchive/pwa-remembrall.git
+   ```
+2. Navigate to the project directory:
+   ```bash
+   cd pwa-remembrall
+   ```
+3. Install dependencies:
+   ```bash
+   pnpm install
+   ```
+
+### Development
+
+```bash
+pnpm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### Build for Production
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+```bash
+pnpm run build
 ```
+
+### Testing
+
+```bash
+pnpm run test
+```
+
+### Deployment
+
+For deployment, you can serve the contents of the dist directory using any static file server. You can also deploy it on platforms like Vercel, Netlify, or GitHub Pages.
+
+### Built With
+
+- [Vite](https://vite.dev/) - A fast build tool for modern web projects.
+- [React](https://react.dev/) - A JavaScript library for building user interfaces.
+- [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript.
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework.
+- [vite-plugin-pwa](https://github.com/vite-pwa/vite-plugin-pwa) - Plugin for adding PWA support.
