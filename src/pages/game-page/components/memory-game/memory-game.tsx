@@ -83,8 +83,7 @@ export default function MemoryGame() {
 
   useEffect(() => {
     setInitialized(false);
-    resetGameValues();
-  }, [level, resetGameValues]);
+  }, [level]);
 
   const gameMessage = useMemo(() => {
     if (!initialized) {
