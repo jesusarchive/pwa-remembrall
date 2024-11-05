@@ -58,14 +58,13 @@ export default function MemoryGame() {
   const resetGameValues = useCallback(() => {
     timer.stop();
     timer.reset();
-    setScore(dispatch)({ score: 0 });
     setClickedValues([]);
     setShuffledValues(shuffle(GAME_VALUES));
     setValueToGuess(
       GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)]
     );
     setShowValues(true);
-  }, [timer, dispatch]);
+  }, [timer]);
 
   const onPlayClick = useCallback(() => {
     resetGameValues();
