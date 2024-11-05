@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import ErrorBoundary from "@/components/error-boundary";
 import GamePage from "@/pages/game-page";
@@ -17,6 +17,10 @@ export const routes = [
         path: "/game",
         Component: GamePage,
         ErrorBoundary: ErrorBoundary,
+      },
+      {
+        path: "*",
+        element: <Navigate to="/" replace />,
       },
     ],
   },
