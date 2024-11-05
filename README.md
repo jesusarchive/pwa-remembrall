@@ -49,8 +49,16 @@ pnpm run build
 
 ### Testing
 
+To run tests:
+
 ```bash
 pnpm run test
+```
+
+To generate test coverage report:
+
+```bash
+pnpm run coverage
 ```
 
 ### Deployment
