@@ -7,7 +7,9 @@ export default function Scoreboard() {
 
   return (
     <div className="w-full flex justify-end p-6">
-      <span className="text-xl">Points: {score ?? 0}</span>
+      <span data-testid="scoreboard" className="text-xl">
+        Points: {score ?? 0}
+      </span>
     </div>
   );
 }

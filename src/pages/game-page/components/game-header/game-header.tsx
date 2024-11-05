@@ -32,14 +32,23 @@ export default function GameHeader() {
   );
 
   return (
-    <div className="w-full h-20 bg-blue-700 flex items-center justify-between px-6">
+    <div
+      data-testid="game-header"
+      className="w-full h-20 bg-blue-700 flex items-center justify-between px-6"
+    >
       <div className="w-40 flex items-center gap-2">
         <span>👤</span>
-        <span className="text-white">{user?.name}</span>
+        <span data-testid="game-header-user" className="text-white">
+          {user?.name}
+        </span>
       </div>
       <div className="w-40 flex items-center gap-6">
         <span className="text-white">Level</span>
-        <Select options={levelOptions} onChange={onLevelChange} />
+        <Select
+          testId="level-select"
+          options={levelOptions}
+          onChange={onLevelChange}
+        />
       </div>
     </div>
   );
