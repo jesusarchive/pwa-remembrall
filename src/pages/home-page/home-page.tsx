@@ -18,15 +18,21 @@ export default function HomePage() {
   }, [dispatch, name, navigate]);
 
   return (
-    <div className="h-dvh w-dvw flex justify-center pt-20">
+    <div
+      data-testid="home-page"
+      className="h-dvh w-dvw flex justify-center pt-20"
+    >
       <div className="flex flex-col gap-4">
         <span className="self-center">🤖</span>
         <Input
+          testId="username-input"
           className="w-96"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Button onClick={onJoinClick}>Join</Button>
+        <Button testId="join-button" onClick={onJoinClick}>
+          Join
+        </Button>
       </div>
     </div>
   );
