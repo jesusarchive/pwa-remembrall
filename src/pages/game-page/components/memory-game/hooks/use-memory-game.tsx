@@ -80,7 +80,10 @@ export function useMemoryGame() {
 
   useEffect(() => {
     setInitialized(false);
-  }, [level]);
+    setScore(dispatch)({
+      score: 0,
+    });
+  }, [dispatch, level]);
 
   const message = useMemo(() => {
     if (!initialized) {
