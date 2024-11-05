@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import useUser from "@/providers/user-provider/user-provider.hook";
@@ -13,9 +14,11 @@ function GamePageInternal() {
     state: { user },
   } = useUser();
 
-  if (!user?.name) {
-    navigate("/");
-  }
+  useEffect(() => {
+    if (!user?.name) {
+      navigate("/");
+    }
+  }, [navigate, user]);
 
   return (
     <div data-testid="game-page" className="h-dvh w-dvw flex flex-col">

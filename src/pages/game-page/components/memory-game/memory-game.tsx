@@ -96,14 +96,25 @@ export default function MemoryGame() {
 
   return (
     <div className="flex flex-col gap-8 p-4">
-      <span className="text-xl font-bold self-center">{gameMessage}</span>
+      <span
+        data-testid="game-page-message"
+        className="text-xl font-bold self-center"
+      >
+        {gameMessage}
+      </span>
       {initialized && (
         <>
-          <span>Time left: {timer.time / 1000} seconds</span>
+          <span data-testid="game-page-timer">
+            Time left: {timer.time / 1000} seconds
+          </span>
           <div className="flex flex-col items-center justify-center">
-            <div className="grid grid-cols-3 gap-4">
+            <div
+              data-testid="game-page-card-grid"
+              className="grid grid-cols-3 gap-4"
+            >
               {shuffledValues.map((value) => (
                 <MemoryCard
+                  testId={`game-page-memory-card-${value}`}
                   key={value}
                   value={String(value)}
                   showValue={clickedValues.includes(value) ? true : showValues}
@@ -121,7 +132,9 @@ export default function MemoryGame() {
         </>
       )}
       <div className="w-full flex items-center justify-center">
-        <Button onClick={onPlayClick}>Play</Button>
+        <Button testId="game-page-play-button" onClick={onPlayClick}>
+          Play
+        </Button>
       </div>
     </div>
   );

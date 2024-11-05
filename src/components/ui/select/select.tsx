@@ -26,7 +26,7 @@ export default function Select({
     >
       {options?.map((option) => (
         <option
-          data-testId={`${testId}-option-${option.value}`}
+          data-testid={`${testId}-option-${option.value}`}
           key={option.value}
           value={option.value}
         >

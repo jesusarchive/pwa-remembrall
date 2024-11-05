@@ -1,6 +1,7 @@
 import { cn } from "@/utils/cn";
 
 type MemoryCardProps = {
+  testId?: string;
   value: string;
   onClick: () => void;
   showValue: boolean;
@@ -9,6 +10,7 @@ type MemoryCardProps = {
 };
 
 export default function MemoryCard({
+  testId,
   showValue,
   value,
   onClick,
@@ -17,6 +19,7 @@ export default function MemoryCard({
 }: Readonly<MemoryCardProps>) {
   return (
     <div
+      data-testid={testId}
       className={cn(
         "h-24 w-24 flex justify-center items-center bg-gray-300",
         isValidGuess === true && "bg-green-500",

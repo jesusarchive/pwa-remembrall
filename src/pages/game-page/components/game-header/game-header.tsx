@@ -33,7 +33,7 @@ export default function GameHeader() {
 
   return (
     <div
-      data-testid="game-header"
+      data-testid="game-page-header"
       className="w-full h-20 bg-blue-700 flex items-center justify-between px-6"
     >
       <div className="w-40 flex items-center gap-2">

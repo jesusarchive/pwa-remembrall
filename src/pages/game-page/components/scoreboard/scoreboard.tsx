@@ -7,7 +7,7 @@ export default function Scoreboard() {
 
   return (
     <div className="w-full flex justify-end p-6">
-      <span data-testid="scoreboard" className="text-xl">
+      <span data-testid="game-page-scoreboard" className="text-xl">
         Points: {score ?? 0}
       </span>
     </div>
