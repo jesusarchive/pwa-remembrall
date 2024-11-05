@@ -8,7 +8,12 @@ type UserProviderProps = {
 };
 
 function UserProvider({ children }: Readonly<UserProviderProps>) {
-  const [state, dispatch] = React.useReducer(userReducer, getDefaultState());
+  const currentUserRaw = localStorage.getItem("user");
+  const currentUser = currentUserRaw ? JSON.parse(currentUserRaw) : undefined;
+  const [state, dispatch] = React.useReducer(
+    userReducer,
+    currentUser ? { user: currentUser } : getDefaultState()
+  );
 
   const value = React.useMemo(() => ({ state, dispatch }), [state]);
 

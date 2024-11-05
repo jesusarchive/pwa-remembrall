@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import Button from "@/components/ui/button";
@@ -7,17 +7,15 @@ import useUser from "@/providers/user-provider/user-provider.hook";
 import { setUser } from "@/providers/user-provider/user-provider.state";
 
 export default function HomePage() {
-  const { state, dispatch } = useUser();
+  const { dispatch } = useUser();
   const navigate = useNavigate();
 
   const [name, setName] = useState("");
 
-  const onJoinClick = () => {
+  const onJoinClick = useCallback(() => {
     setUser(dispatch)({ user: { id: name.toLowerCase(), name } });
     navigate("/game");
-  };
-
-  console.log("state", state);
+  }, [dispatch, name, navigate]);
 
   return (
     <div className="h-dvh w-dvw flex justify-center pt-20">

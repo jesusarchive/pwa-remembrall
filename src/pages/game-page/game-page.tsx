@@ -1,11 +1,31 @@
+import { useNavigate } from "react-router-dom";
+
 import useUser from "@/providers/user-provider/user-provider.hook";
 
+import GameHeader from "./components/game-header";
+import MemoryGame from "./components/memory-game";
+import Scoreboard from "./components/scoreboard/scoreboard";
 import GameProvider from "./providers/game-provider/game-provider";
 
 function GamePageInternal() {
-  const { state } = useUser();
+  const navigate = useNavigate();
+  const {
+    state: { user },
+  } = useUser();
 
-  return <div>{state?.user?.name}</div>;
+  if (!user?.name) {
+    navigate("/");
+  }
+
+  return (
+    <div className="h-dvh w-dvw flex flex-col">
+      <GameHeader />
+      <div className="h-full w-full flex flex-col gap-4">
+        <Scoreboard />
+        <MemoryGame />
+      </div>
+    </div>
+  );
 }
 
 export default function GamePage() {
