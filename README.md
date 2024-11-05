@@ -55,14 +55,12 @@ pnpm run test
 
 ### Deployment
 
-This project is currently deployed on Netlify at https://672a4954000bd4e8947987f6--silly-bunny-2fbfc4.netlify.app/
-
 For deployment, you can serve the contents of the dist directory using any static file server. You can also deploy it on platforms like Vercel, Netlify, or GitHub Pages.
 
 ### Built With
 
-Vite - A fast build tool for modern web projects.
-React - A JavaScript library for building user interfaces.
-TypeScript - A typed superset of JavaScript.
-Tailwind CSS - A utility-first CSS framework.
-vite-plugin-pwa - Plugin for adding PWA support.
+- [Vite](https://vite.dev/) - A fast build tool for modern web projects.
+- [React](https://react.dev/) - A JavaScript library for building user interfaces.
+- [TypeScript](https://www.typescriptlang.org/) - A typed superset of JavaScript.
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework.
+- [vite-plugin-pwa](https://github.com/vite-pwa/vite-plugin-pwa) - Plugin for adding PWA support.
