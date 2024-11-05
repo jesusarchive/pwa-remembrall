@@ -24,10 +24,12 @@
 
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
+      "@/*": ["src/*"]
     },
-     "types": [
-      "vite-plugin-pwa/client"
+    "types": [
+      "vite-plugin-pwa/client",
+      "vitest/globals",
+      "@testing-library/jest-dom"
     ]
   },
   "include": ["src"]
