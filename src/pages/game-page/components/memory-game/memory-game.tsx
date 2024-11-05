@@ -37,7 +37,7 @@ export default function MemoryGame() {
   const [shuffledValues, setShuffledValues] = useState<number[]>(() =>
     shuffle(GAME_VALUES)
   );
-  const [numberToGuess, setNumberToGuess] = useState<number | null>(null);
+  const [valueToGuess, setValueToGuess] = useState<number | null>(null);
   const [showValues, setShowValues] = useState(true);
   const [clickedValues, setClickedValues] = useState<number[]>([]);
 
@@ -46,13 +46,13 @@ export default function MemoryGame() {
       setClickedValues((prevClickedValues) => [...prevClickedValues, value]);
       timer.stop();
 
-      if (value === numberToGuess) {
+      if (value === valueToGuess) {
         setScore(dispatch)({
           score: (score ?? 0) + MEMORY_GAME_SCORE[level ?? "easy"],
         });
       }
     },
-    [dispatch, level, numberToGuess, score, timer]
+    [dispatch, level, valueToGuess, score, timer]
   );
 
   const resetGameValues = useCallback(() => {
@@ -61,7 +61,7 @@ export default function MemoryGame() {
     setScore(dispatch)({ score: 0 });
     setClickedValues([]);
     setShuffledValues(shuffle(GAME_VALUES));
-    setNumberToGuess(
+    setValueToGuess(
       GAME_VALUES[Math.floor(Math.random() * GAME_VALUES.length)]
     );
     setShowValues(true);
@@ -92,8 +92,8 @@ export default function MemoryGame() {
     }
     return showValues
       ? "Memorize the cards"
-      : `Where is the number ${numberToGuess}?`;
-  }, [initialized, showValues, numberToGuess]);
+      : `Where is the number ${valueToGuess}?`;
+  }, [initialized, showValues, valueToGuess]);
 
   return (
     <div className="flex flex-col gap-8 p-4">
@@ -111,7 +111,7 @@ export default function MemoryGame() {
                   onClick={() => onMemoryCardClick(value)}
                   isValidGuess={
                     clickedValues.includes(value)
-                      ? value === numberToGuess
+                      ? value === valueToGuess
                       : undefined
                   }
                   disabled={showValues || !!clickedValues.length}
