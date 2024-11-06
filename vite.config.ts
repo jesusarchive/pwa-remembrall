@@ -33,18 +33,6 @@ export default defineConfig({
         short_name: "Remembrall",
         description: "Memory card game",
         theme_color: "#ffffff",
-        icons: [
-          {
-            src: "path/to/icon-192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "path/to/icon-512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
         scope: "/",
         start_url: "/",
         display: "standalone",
