@@ -7,6 +7,7 @@ type ButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
 export default function Button({
   testId,
   className,
+  disabled,
   ...props
 }: Readonly<ButtonProps>) {
   return (
@@ -14,8 +15,10 @@ export default function Button({
       data-testid={testId}
       className={cn(
         "bg-blue-900 text-white font-bold py-2 px-4 rounded",
+        disabled && "bg-gray-400 cursor-not-allowed",
         className
       )}
+      disabled={disabled}
       {...props}
     />
   );

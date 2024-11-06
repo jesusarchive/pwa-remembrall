@@ -13,6 +13,9 @@ export default function HomePage() {
   const [name, setName] = useState("");
 
   const onJoinClick = useCallback(() => {
+    if (!name) {
+      return;
+    }
     setUser(dispatch)({ user: { id: name.toLowerCase(), name } });
     navigate("/game");
   }, [dispatch, name, navigate]);
@@ -31,7 +34,7 @@ export default function HomePage() {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <Button testId="join-button" onClick={onJoinClick}>
+        <Button testId="join-button" onClick={onJoinClick} disabled={!name}>
           Join
         </Button>
       </div>
