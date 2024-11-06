@@ -12,7 +12,7 @@ export default function MemoryGame() {
     clickedValues,
     valueToGuess,
     showValues,
-    play,
+    startNewGame,
     guess,
   } = useMemoryGame();
 
@@ -54,7 +54,7 @@ export default function MemoryGame() {
         </>
       )}
       <div className="w-full flex items-center justify-center">
-        <Button testId="game-page-play-button" onClick={play}>
+        <Button testId="game-page-play-button" onClick={startNewGame}>
           Play
         </Button>
       </div>
