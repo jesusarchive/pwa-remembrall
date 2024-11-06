@@ -17,10 +17,10 @@ export default function MemoryGame() {
   } = useMemoryGame();
 
   return (
-    <div className="flex flex-col gap-8 p-4">
+    <div className="flex flex-col gap-6 md:gap-8 p-4">
       <span
         data-testid="game-page-message"
-        className="text-xl font-bold self-center"
+        className="text-base md:text-xl font-bold self-center"
       >
         {message}
       </span>

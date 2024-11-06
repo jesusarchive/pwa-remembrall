@@ -7,7 +7,7 @@ function GamePageInternal() {
   return (
     <div data-testid="game-page" className="h-dvh w-dvw flex flex-col">
       <GameHeader />
-      <div className="h-full w-full flex flex-col gap-4">
+      <div className="h-full w-full flex flex-col md:gap-4 gap-2">
         <Scoreboard />
         <MemoryGame />
       </div>

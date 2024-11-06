@@ -20,13 +20,13 @@ export default function HomePage() {
   return (
     <div
       data-testid="home-page"
-      className="h-dvh w-dvw flex justify-center pt-20"
+      className="h-dvh w-dvw flex justify-center pt-20 px-4 sm:px-0"
     >
-      <div className="flex flex-col gap-4">
-        <span className="self-center">🤖</span>
+      <div className="flex flex-col gap-4 w-full max-w-md">
+        <span className="self-center text-4xl">🤖</span>
         <Input
           testId="username-input"
-          className="w-96"
+          className="w-full"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
