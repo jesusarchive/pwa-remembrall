@@ -4,6 +4,8 @@ import ErrorBoundary from "@/components/error-boundary";
 import GamePage from "@/pages/game-page";
 import HomePage from "@/pages/home-page";
 
+import AuthGuard from "./auth-guard";
+
 export const routes = [
   {
     path: "/",
@@ -15,7 +17,11 @@ export const routes = [
       },
       {
         path: "/game",
-        Component: GamePage,
+        element: (
+          <AuthGuard>
+            <GamePage />
+          </AuthGuard>
+        ),
         ErrorBoundary: ErrorBoundary,
       },
       {
