@@ -6,8 +6,8 @@ export default function Scoreboard() {
   } = useGameContext();
 
   return (
-    <div className="w-full flex justify-end p-6">
-      <span data-testid="game-page-scoreboard" className="text-xl">
+    <div className="w-full flex justify-end py-4 md:py-6 px-6">
+      <span data-testid="game-page-scoreboard" className="md:text-xl text-base">
         Points: {score ?? 0}
       </span>
     </div>

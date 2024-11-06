@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 
 import { AppWrapper } from "@/test/test.utils";
 
@@ -22,7 +22,11 @@ describe("GamePage", () => {
   test("should start game on click play button", () => {
     render(<GamePage />, { wrapper: AppWrapper });
     expect(screen.getByTestId("game-page")).toBeInTheDocument();
-    fireEvent.click(screen.getByTestId("game-page-play-button"));
+
+    act(() => {
+      fireEvent.click(screen.getByTestId("game-page-play-button"));
+    });
+
     expect(screen.getByText("Memorize the cards")).toBeInTheDocument();
     expect(screen.getByTestId("game-page-timer")).toMatchInlineSnapshot(`
       <span
@@ -43,7 +47,10 @@ describe("GamePage", () => {
   test("should show red card when wrong guess", () => {
     render(<GamePage />, { wrapper: AppWrapper });
     expect(screen.getByTestId("game-page")).toBeInTheDocument();
-    fireEvent.click(screen.getByTestId("game-page-play-button"));
+
+    act(() => {
+      fireEvent.click(screen.getByTestId("game-page-play-button"));
+    });
 
     expect(screen.getByTestId("game-page-card-grid")).toBeInTheDocument();
     expect(screen.getByTestId("game-page-memory-card-1")).toBeInTheDocument();
@@ -63,9 +70,12 @@ describe("GamePage", () => {
         wrongGuess = formattedValueToGuess + 1;
       }
 
-      fireEvent.click(
-        screen.getByTestId(`game-page-memory-card-${wrongGuess}`)
-      );
+      act(() => {
+        fireEvent.click(
+          screen.getByTestId(`game-page-memory-card-${wrongGuess}`)
+        );
+      });
+
       expect(
         screen.getByTestId(`game-page-memory-card-${wrongGuess}`)
       ).toHaveClass("bg-red-500");
@@ -75,7 +85,10 @@ describe("GamePage", () => {
   test("should show green card when valid guess and score should be updated", () => {
     render(<GamePage />, { wrapper: AppWrapper });
     expect(screen.getByTestId("game-page")).toBeInTheDocument();
-    fireEvent.click(screen.getByTestId("game-page-play-button"));
+
+    act(() => {
+      fireEvent.click(screen.getByTestId("game-page-play-button"));
+    });
 
     expect(screen.getByTestId("game-page-card-grid")).toBeInTheDocument();
     expect(screen.getByTestId("game-page-memory-card-1")).toBeInTheDocument();
@@ -85,9 +98,12 @@ describe("GamePage", () => {
         .textContent?.match(/\d+/)?.[0];
       const formattedValueToGuess = valueToGuess ? Number(valueToGuess) : 0;
 
-      fireEvent.click(
-        screen.getByTestId(`game-page-memory-card-${formattedValueToGuess}`)
-      );
+      act(() => {
+        fireEvent.click(
+          screen.getByTestId(`game-page-memory-card-${formattedValueToGuess}`)
+        );
+      });
+
       expect(
         screen.getByTestId(`game-page-memory-card-${formattedValueToGuess}`)
       ).toHaveClass("bg-green-500");
@@ -98,5 +114,58 @@ describe("GamePage", () => {
         "Points: 10"
       );
     }, 2000);
+  });
+
+  test("should change game level", () => {
+    render(<GamePage />, { wrapper: AppWrapper });
+    expect(screen.getByTestId("game-page")).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.change(screen.getByTestId("level-select"), {
+        target: { value: "easy" },
+      });
+    });
+
+    expect(screen.getByTestId("level-select")).toHaveValue("easy");
+
+    act(() => {
+      fireEvent.change(screen.getByTestId("level-select"), {
+        target: { value: "medium" },
+      });
+    });
+
+    expect(screen.getByTestId("level-select")).toHaveValue("medium");
+
+    act(() => {
+      fireEvent.change(screen.getByTestId("level-select"), {
+        target: { value: "hard" },
+      });
+    });
+
+    expect(screen.getByTestId("level-select")).toHaveValue("hard");
+  });
+
+  test("should reset game when changing level", () => {
+    render(<GamePage />, { wrapper: AppWrapper });
+    expect(screen.getByTestId("game-page")).toBeInTheDocument();
+
+    act(() => {
+      fireEvent.click(screen.getByTestId("game-page-play-button"));
+    });
+
+    expect(screen.getByTestId("game-page-card-grid")).toBeInTheDocument();
+    expect(screen.getByTestId("game-page-memory-card-1")).toBeInTheDocument();
+    setTimeout(() => {
+      act(() => {
+        fireEvent.change(screen.getByTestId("level-select"), {
+          target: { value: "easy" },
+        });
+      });
+
+      expect(screen.getByTestId("game-page-card-grid")).not.toBeInTheDocument();
+      expect(
+        screen.getByTestId("game-page-memory-card-1")
+      ).not.toBeInTheDocument();
+    }, 5000);
   });
 });
