@@ -13,11 +13,10 @@ export default function HomePage() {
   const [name, setName] = useState("");
 
   const onJoinClick = useCallback(() => {
-    if (!name) {
-      return;
+    if (name) {
+      setUser(dispatch)({ user: { id: name.toLowerCase(), name } });
+      navigate("/game");
     }
-    setUser(dispatch)({ user: { id: name.toLowerCase(), name } });
-    navigate("/game");
   }, [dispatch, name, navigate]);
 
   return (
