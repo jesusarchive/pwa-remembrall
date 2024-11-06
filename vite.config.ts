@@ -53,6 +53,7 @@ export default defineConfig({
         "**/**.d.ts",
         "src/main.tsx",
         "**/**.test.{ts,tsx}",
+        "dev-dist",
       ],
     },
   },
