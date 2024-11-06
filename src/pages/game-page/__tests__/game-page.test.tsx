@@ -99,4 +99,38 @@ describe("GamePage", () => {
       );
     }, 2000);
   });
+
+  test("should change game level", () => {
+    render(<GamePage />, { wrapper: AppWrapper });
+    expect(screen.getByTestId("game-page")).toBeInTheDocument();
+    fireEvent.change(screen.getByTestId("level-select"), {
+      target: { value: "easy" },
+    });
+    expect(screen.getByTestId("level-select")).toHaveValue("easy");
+    fireEvent.change(screen.getByTestId("level-select"), {
+      target: { value: "medium" },
+    });
+    expect(screen.getByTestId("level-select")).toHaveValue("medium");
+    fireEvent.change(screen.getByTestId("level-select"), {
+      target: { value: "hard" },
+    });
+    expect(screen.getByTestId("level-select")).toHaveValue("hard");
+  });
+
+  test("should reset game when changing level", () => {
+    render(<GamePage />, { wrapper: AppWrapper });
+    expect(screen.getByTestId("game-page")).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("game-page-play-button"));
+    expect(screen.getByTestId("game-page-card-grid")).toBeInTheDocument();
+    expect(screen.getByTestId("game-page-memory-card-1")).toBeInTheDocument();
+    setTimeout(() => {
+      fireEvent.change(screen.getByTestId("level-select"), {
+        target: { value: "easy" },
+      });
+      expect(screen.getByTestId("game-page-card-grid")).not.toBeInTheDocument();
+      expect(
+        screen.getByTestId("game-page-memory-card-1")
+      ).not.toBeInTheDocument();
+    }, 5000);
+  });
 });
