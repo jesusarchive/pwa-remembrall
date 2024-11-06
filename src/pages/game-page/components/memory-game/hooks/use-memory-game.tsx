@@ -39,20 +39,6 @@ export function useMemoryGame() {
   const [showValues, setShowValues] = useState(true);
   const [clickedValues, setClickedValues] = useState<number[]>([]);
 
-  const guess = useCallback(
-    (value: number) => {
-      setClickedValues((prevClickedValues) => [...prevClickedValues, value]);
-      timer.stop();
-
-      if (value === valueToGuess) {
-        setScore(dispatch)({
-          score: (score ?? 0) + MEMORY_GAME_SCORE[level ?? "easy"],
-        });
-      }
-    },
-    [dispatch, level, valueToGuess, score, timer]
-  );
-
   const reset = useCallback(() => {
     timer.stop();
     timer.reset();
@@ -71,6 +57,34 @@ export function useMemoryGame() {
     }
     timer.start();
   }, [initialized, reset, timer]);
+
+  const startNewGame = useCallback(() => {
+    setScore(dispatch)({
+      score: 0,
+    });
+    play();
+  }, [dispatch, play]);
+
+  const guess = useCallback(
+    (value: number) => {
+      setClickedValues((prevClickedValues) => [...prevClickedValues, value]);
+      timer.stop();
+
+      if (value === valueToGuess) {
+        setScore(dispatch)({
+          score: (score ?? 0) + MEMORY_GAME_SCORE[level ?? "easy"],
+        });
+
+        setTimeout(() => {
+          if (!timer.isRunning) {
+            play();
+          }
+          return;
+        }, 1000);
+      }
+    },
+    [timer, valueToGuess, dispatch, score, level, play]
+  );
 
   useEffect(() => {
     if (!timer.isRunning) {
@@ -101,7 +115,7 @@ export function useMemoryGame() {
     showValues,
     clickedValues,
     guess,
-    play,
+    startNewGame,
     time: timer.time,
     message,
   };

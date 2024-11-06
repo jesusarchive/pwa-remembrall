@@ -10,15 +10,33 @@ export default defineConfig({
     react(),
     tsconfigPaths(),
     VitePWA({
-      // cache all the imports
-      workbox: {
-        globPatterns: ["**/*"],
+      registerType: "autoUpdate",
+      devOptions: {
+        enabled: true,
+        type: "module",
       },
-      // cache all the static assets in the public folder
+      workbox: {
+        globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+        runtimeCaching: [
+          {
+            urlPattern: /^https:\/\/api\.example\.com\//,
+            handler: "NetworkFirst",
+            options: {
+              cacheName: "api-cache",
+            },
+          },
+        ],
+      },
       includeAssets: ["**/*"],
       manifest: {
+        name: "PWA Remembrall",
+        short_name: "Remembrall",
+        description: "Memory card game",
+        theme_color: "#ffffff",
         scope: "/",
         start_url: "/",
+        display: "standalone",
+        background_color: "#ffffff",
       },
     }),
   ],
@@ -36,6 +54,11 @@ export default defineConfig({
         "src/main.tsx",
         "**/**.test.{ts,tsx}",
       ],
+    },
+  },
+  build: {
+    rollupOptions: {
+      external: ["workbox-window"],
     },
   },
 });
