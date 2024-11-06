@@ -23,10 +23,11 @@ export default function HomePage() {
       className="h-dvh w-dvw flex justify-center pt-20 px-4 sm:px-0"
     >
       <div className="flex flex-col gap-4 w-full max-w-md">
-        <span className="self-center text-4xl">🤖</span>
+        <span className="self-center text-4xl">👤</span>
         <Input
           testId="username-input"
           className="w-full"
+          placeholder="Name"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
